@@ -1,0 +1,58 @@
+doctype
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title SS ITA
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous")
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css", integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r", crossorigin="anonymous")
+
+    body
+        div(id='dev')
+        .container
+            .table-wrapper
+                .table-title
+                    .row
+                        .col-sm-8
+                        h2 Students info
+                table.table.yable-bordered
+                    thead
+                        tr
+                            th Name
+                            th Surname
+                            th Actions
+                    tbody
+                        each student in students
+                            tr
+                                td(id='firstName'+student.id)= student.firstName
+                                td(id='lastName'+student.id)= student.lastName
+                                td
+                                    a(class='button btn btn-success edit' href='/edit/') edit
+                                    |&nbsp;
+                                    a(id='delete_'+student.id class='button btn btn-danger delete') delete
+                a(class='btn btn-primary' href='/add/') Add item
+                    form(class='hidden add-item' action="/" method="post")
+                        p
+                        label(for="first-name") First Name:
+                        input(type="text" name="first-name" id="first-name")
+                        p
+                        label(for="last-name") Last Name:
+                        input(type="text" name="last-name" id="last-name")
+                        p
+                        input(type="submit" class="btn btn-prime" value="submit")
+
+        script(src="https://code.jquery.com/jquery-2.2.4.js", integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=", crossorigin="anonymous")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", crossorigin="anonymous")
+        script.
+            $(".delete").click(function () {
+                const id = $(this).attr('id').split('_')[1];
+                console.log(id);
+                $.ajax({
+                    url: "/api/v1/students/"+id,
+                    type: 'DELETE',
+                    success: function (result) {
+                        $("#dev").html("success");
+                    }
+                });
+            });
