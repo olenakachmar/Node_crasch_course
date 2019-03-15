@@ -1,0 +1,6 @@
+{
+  "name": "Project Getting started",
+  "description": "Students information",
+  "repository": "https://evening-island-79763.herokuapp.com/",
+  "keywords": ["node", "express", "static"]
+}
