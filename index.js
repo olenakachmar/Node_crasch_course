@@ -1,25 +1,26 @@
 const express = require('express');
-const fs = require('fs');
 const pug = require('pug');
 const config = require('./config');
+const json = require('./data/students.json')
 
 const { hostname, port } = config;
 const app = express();
-const json = JSON.parse(fs.readFileSync('data/students.json'));
-const html = pug.renderFile('students.pug', { ...json });
+
+app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'text/html');
-  res.send(html);
+  res.render('students.pug', { ...json });
 });
 
 app.get('/test', (req, res) => {
-  res.send('mmm');
+  res.redirect('/');
 });
 
 app.delete('/api/v1/students/:id', (req, res) => {
-  json.students = json.students.filter(student => student.id != req.body.id);
-  res.redirect('/');
+  json.students = json.students.filter(student => student.id != req.params.id);
+  console.log(`${req.baseUrl}/`);
+  req.method = 'GET';
+  res.redirect(303, '/');
 });
 
 app.listen(port, hostname, () => {

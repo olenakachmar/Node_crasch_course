@@ -51,8 +51,12 @@ html(lang="en")
                 $.ajax({
                     url: "/api/v1/students/"+id,
                     type: 'DELETE',
-                    success: function (result) {
-                        $("#dev").html("success");
+                    success: function (data, textStatus) {
+                        window.location.href = '/';
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
                     }
                 });
             });
